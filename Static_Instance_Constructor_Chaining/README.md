@@ -8,12 +8,4 @@ This repository contains foundational code examples demonstrating Object-Oriente
 * **Scope Differentiation**: Visualizing the operational boundaries between static methods and instance methods.
 
 ## Getting Started
-Deploy the classes folder to your Salesforce scratch org or sandbox using the Salesforce CLI:
-```bash
-sf project deploy start
-```
-
-To explore how these concepts can be further adapted, let me know if you would like to:
-* See the corresponding **Apex unit test class** for this demo.
-* Convert this code to standard **Java** syntax.
-* View an example of **inheritance or interfaces** building upon this class structure.
+Deploy the classes folder to your Salesforce scratch org or sandbox using the Salesforce 
