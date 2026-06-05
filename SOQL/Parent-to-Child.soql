@@ -1,0 +1,10 @@
+// ====================================================================================
+// MODULE: Parent-to-Child Relationship Queries (Subqueries)
+// FILE: GetHotAccountsWithCases.soql
+// PURPOSE: Extracts high-priority 'Hot' accounts along with a nested collection 
+//          of their related support cases to analyze customer friction points.
+// ====================================================================================
+
+SELECT Name, Rating, (SELECT Subject, Status, Priority FROM Cases) 
+FROM Account
+WHERE Rating = 'Hot'
