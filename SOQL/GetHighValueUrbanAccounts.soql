@@ -1,0 +1,10 @@
+/*
+Write a SOQL query that extracts the Name, Annual Revenue, and Billing City of all Accounts 
+that meet the following strict criteria:The account's Annual Revenue is greater than or equal 
+to $5,000,000.The account is physically located in either San Francisco, New York, or London.
+Sort the final results so that the companies making the highest Annual Revenue appear at the very top of the list.
+*/
+SELECT Name, AnnualRevenue, BillingCity
+FROM Account
+WHERE AnnualRevenue >= 5000000 AND BillingCity IN ('San Francisco', 'New York', 'London')
+ORDER BY AnnualRevenue DESC
