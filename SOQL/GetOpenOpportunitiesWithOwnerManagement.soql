@@ -1,0 +1,10 @@
+// ====================================================================================
+// MODULE: Child-to-Parent Relationship Queries (Dot-Notation)
+// FILE: GetOpenOpportunitiesWithOwnerManagement.soql
+// PURPOSE: Extracts open sales pipeline deals along with the internal identity 
+//          of the Opportunity Owner and their direct reporting Manager.
+// ====================================================================================
+
+SELECT Name, StageName, Amount, Owner.Name, Owner.Manager.Name
+FROM Opportunity
+WHERE StageName NOT IN ('Closed Won', 'Closed Lost')
