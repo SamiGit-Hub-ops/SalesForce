@@ -1,0 +1,19 @@
+// ====================================================================================
+// MODULE: Anti-Joins (Subqueries in the WHERE Clause)
+// FILE: GetAccountsWithNoWonDeals.soql
+//
+// PROBLEM STATEMENT & BUSINESS VALUE:
+// The Sales Development leadership team is executing a pipeline reclamation strategy 
+// targeting stagnated or un-monetised corporate accounts. To prevent sales disruption, 
+// they need a clean list of existing business accounts that have never reached finality 
+// on a successful revenue event.
+//
+// Cross-referencing tables manually creates severe performance overhead and data noise. 
+// This query applies an efficient database-level Anti-Join (`NOT IN`) to isolate and 
+// extract Account records that possess absolutely zero historical footprint inside the 
+// high-value 'Closed Won' opportunity pipeline.
+// ====================================================================================
+
+SELECT Id, Name 
+FROM Account 
+WHERE Id NOT IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Closed Won')
