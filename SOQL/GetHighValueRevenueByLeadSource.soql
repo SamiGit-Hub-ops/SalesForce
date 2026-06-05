@@ -1,0 +1,12 @@
+// ====================================================================================
+// MODULE: Advanced Grouping & Summaries (GROUP BY, SUM, HAVING)
+// FILE: GetHighValueRevenueByLeadSource.soql
+// PURPOSE: Summarizes closed-won opportunity revenue by individual Lead Source,
+//          filtering out any low-performing sources generating under $1,000,000.
+// ====================================================================================
+
+SELECT LeadSource, SUM(Amount)
+FROM Opportunity
+WHERE StageName = 'Closed Won'
+GROUP BY LeadSource
+HAVING SUM(Amount) > 1000000
