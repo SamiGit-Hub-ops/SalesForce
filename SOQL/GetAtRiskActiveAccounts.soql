@@ -1,0 +1,12 @@
+// ====================================================================================
+// MODULE: Null Evaluation & Dataset Constraints
+// FILE: GetAtRiskActiveAccounts.soql
+// PURPOSE: Identifies active customer accounts lacking industry classification 
+//          to support data hygiene workflows for Customer Success Operations.
+// ====================================================================================
+
+SELECT Id, Name, Industry
+FROM Account
+WHERE Industry = NULL 
+  AND Active__c = 'Yes'
+LIMIT 50
