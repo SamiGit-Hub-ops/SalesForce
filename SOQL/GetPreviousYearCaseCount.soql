@@ -1,0 +1,10 @@
+// ====================================================================================
+// MODULE: Date Literals & Aggregation Basics (COUNT)
+// FILE: GetPreviousYearCaseCount.soql
+// PURPOSE: Aggregates total support case volume created during the previous 
+//          calendar year to analyze year-over-year operational load.
+// ====================================================================================
+
+SELECT COUNT(Id)
+FROM Case
+WHERE CreatedDate = LAST_YEAR
