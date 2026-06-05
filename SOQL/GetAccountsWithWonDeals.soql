@@ -1,0 +1,18 @@
+// ====================================================================================
+// MODULE: Semi-Joins (Subqueries in the WHERE Clause)
+// FILE: GetAccountsWithWonDeals.soql
+//
+// PROBLEM STATEMENT & BUSINESS VALUE:
+// The Customer Marketing team is launching an exclusive VIP upsell initiative. Target 
+// criteria requires identifying customer companies that have demonstrated historical 
+// purchasing success by closing at least one high-value contract.
+//
+// Standard multi-object reports or child-to-parent queries cause extreme record 
+// duplication if a customer has signed multiple contracts, leading to dirty target lists 
+// and wasted marketing spend. This query leverages an optimized Semi-Join mechanism 
+// to isolate unique Account entities with absolute deduplication at the database layer.
+// ====================================================================================
+
+SELECT Id, Name 
+FROM Account 
+WHERE Id IN (SELECT AccountId FROM Opportunity WHERE StageName = 'Closed Won')
