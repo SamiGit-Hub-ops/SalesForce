@@ -1,0 +1,10 @@
+// ====================================================================================
+// MODULE: Data Grouping (GROUP BY)
+// FILE: GetAccountCountByIndustry.soql
+// PURPOSE: Groups all Account records by their Industry classification and returns
+//          the total record volume per sector for market segmentation analysis.
+// ====================================================================================
+
+SELECT Industry, COUNT(Id)
+FROM Account
+GROUP BY Industry
