@@ -1,0 +1,19 @@
+// ====================================================================================
+// MODULE: Advanced Data Aggregation & Group Filtering (GROUP BY / HAVING)
+// FILE: GetHighVolumeLeadSources.soql
+//
+// PROBLEM STATEMENT & BUSINESS VALUE:
+// The Marketing and Demand Generation teams are auditing pipeline velocity to optimize 
+// quarterly budget allocation. Looking at individual opportunity records causes data noise. 
+// Instead, leadership requires a high-impact summary detailing which top-performing 
+// customer acquisition channels (Lead Sources) successfully sustain scale. 
+//
+// To eliminate low-volume anomalies and focus strictly on high-yield strategic vectors, 
+// this query isolates and returns only those Lead Sources that have actively converted 
+// and sustained a high-volume pipeline threshold of more than 10 individual deal records.
+// ====================================================================================
+
+SELECT LeadSource, COUNT(Id)
+FROM Opportunity 
+GROUP BY LeadSource
+HAVING COUNT(Id) > 10
