@@ -1,0 +1,15 @@
+// FILE: GetUnonboardedDirectCustomers.soql
+//
+// PROBLEM STATEMENT & BUSINESS VALUE:
+// Customer Success requires an alert system for 'Customer - Direct' Accounts 
+// that have completely finalized their contracts but have zero associated 
+// hardware Assets provisioned in the system. 
+//
+// Using a selective subquery with NOT IN isolates these stalled onboardings
+// purely at the database level, preventing massive memory allocation patterns
+// in Apex batch jobs.
+
+SELECT Id, Name, Phone 
+FROM Account 
+WHERE Type = 'Customer - Direct'
+  AND Id NOT IN (SELECT AccountId FROM Asset)
