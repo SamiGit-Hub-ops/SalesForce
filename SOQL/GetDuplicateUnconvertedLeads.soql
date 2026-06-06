@@ -1,0 +1,17 @@
+// FILE: GetDuplicateUnconvertedLeads.soql
+//
+// PROBLEM STATEMENT & BUSINESS VALUE:
+// Marketing Operations needs to detect and clean up duplicate records caused
+// by a malfunctioning web-to-lead form. This query groups unconverted leads
+// by email and filters the aggregate results to isolate only the email
+// addresses that appear more than once.
+//
+// Using the HAVING clause handles the filtering natively on the database
+// layer, eliminating the need to load thousands of records into Apex heap
+// memory to perform collections-based deduplication.
+
+SELECT Email, COUNT(Id) duplicateCount
+FROM Lead
+WHERE IsConverted = false
+GROUP BY Email
+HAVING COUNT(Id) > 1
