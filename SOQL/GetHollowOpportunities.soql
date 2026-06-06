@@ -1,0 +1,14 @@
+// FILE: GetHollowOpportunities.soql
+// 
+// This query helps us find "hollow" opportunities—deals that are currently open 
+// but don't have any actual products attached to them. These empty records 
+// skew our sales forecasting metrics because they report pipeline value without substance.
+// 
+// To fix this cleanly, we use an anti-join (NOT IN) against the OpportunityLineItem object. 
+// This lets the database do all the heavy filtering work up front, keeping our data 
+// payload light and avoiding heavy Apex loop processing later on.
+
+SELECT Id, Name, Amount, StageName
+FROM Opportunity
+WHERE IsClosed = false
+  AND Id NOT IN (SELECT OpportunityId FROM OpportunityLineItem)
