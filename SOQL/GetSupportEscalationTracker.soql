@@ -1,0 +1,16 @@
+// FILE: GetSupportEscalationTracker.soql
+//
+// This query helps support ops track what records are being interacted with today. 
+// Since tasks can link to multiple standard objects, we use TYPEOF on the What field 
+// to dynamically grab Account details or Case details depending on the relation type.
+//
+// Using the TODAY literal keeps the dashboard component up-to-date in real-time 
+// without needing manual date ranges passed in from Apex.
+
+SELECT Subject, Status,
+    TYPEOF What
+        WHEN Account THEN Name, Rating
+        WHEN Case THEN CaseNumber, Status
+    END
+FROM Task
+WHERE CreatedDate = TODAY
