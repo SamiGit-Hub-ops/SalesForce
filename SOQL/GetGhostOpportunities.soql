@@ -1,0 +1,14 @@
+// FILE: GetGhostOpportunities.soql
+// 
+// This query isolates "ghost deals" in our pipeline—open opportunities that 
+// don't have an Opportunity Contact Role assigned. Company policy requires 
+// at least one decision-maker mapped to a deal so we know who to contact.
+// 
+// Unlike the Task object, OpportunityContactRole fully supports anti-joins. 
+// This means we can cleanly use NOT IN to let the database filter out the good 
+// deals, leaving us with a targeted list for Sales Ops cleanup.
+
+SELECT Id, Name, StageName
+FROM Opportunity
+WHERE IsClosed = false 
+  AND Id NOT IN (SELECT OpportunityId FROM OpportunityContactRole)
