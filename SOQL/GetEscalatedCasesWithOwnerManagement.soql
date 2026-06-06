@@ -1,0 +1,12 @@
+// FILE: GetEscalatedCasesWithOwnerManagement.soql
+//
+// PROBLEM STATEMENT & BUSINESS VALUE:
+// Customer Success executives need an "At-Risk Accounts" dashboard. When a 
+// high-priority case is open, this query pulls the case details along with
+// a complete 3-level upward relationship chain: Case -> Account -> Owner -> Manager.
+// This allows leadership to instantly know which Account Owner and which 
+// Sales Manager to loop into emergency escalation meetings.
+
+SELECT Subject, Status, Account.Name, Account.Owner.Name, Account.Owner.Manager.Name
+FROM Case
+WHERE Priority = 'High' AND IsClosed = false
