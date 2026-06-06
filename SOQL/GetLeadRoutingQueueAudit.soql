@@ -1,0 +1,16 @@
+// FILE: GetLeadRoutingQueueAudit.soql
+//
+// This query helps the ops team audit our lead distribution routing. Since leads 
+// can be owned by an individual rep (User) or sit in a backlog queue (Group), 
+// we use TYPEOF on the Owner field.
+//
+// This dynamically pulls the right contact details for reps or routing names 
+// for queues, keeping the logic unified in one database call.
+
+SELECT FirstName, LastName, Company,
+    TYPEOF Owner
+        WHEN User THEN Email, Title
+        WHEN Group THEN Name, DeveloperName
+    END
+FROM Lead
+WHERE IsConverted = false
