@@ -1,0 +1,18 @@
+// FILE: GetUnifiedActivityTimeline.soql
+//
+// PROBLEM STATEMENT & BUSINESS VALUE:
+// An LWC timeline needs to show a user's open tasks. Because the 'What' field
+// is polymorphic, it can link to multiple object types. Instead of running 
+// separate queries per object type (which spikes transaction times), we use
+// the TYPEOF operator to conditionally fetch fields based on the underlying object.
+//
+// HMs and architects love this because it maximizes performance and respects 
+// the polymorphic nature of the Salesforce core data model.
+
+SELECT Subject, ActivityDate,
+    TYPEOF What
+        WHEN Account THEN Name, Industry
+        WHEN Opportunity THEN Name, StageName
+    END
+FROM Task
+WHERE IsClosed = false AND OwnerId = :activeUserId
