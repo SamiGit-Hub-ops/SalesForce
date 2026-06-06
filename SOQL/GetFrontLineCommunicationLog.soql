@@ -1,0 +1,16 @@
+// FILE: GetFrontLineCommunicationLog.soql
+//
+// This query helps the support manager review the team's outreach tasks from this week.
+// Since tasks can be logged against either a Lead or a Contact, we use TYPEOF on the 
+// polymorphic 'Who' field to conditionally pull fields based on who they spoke with.
+//
+// Using the THIS_WEEK date literal keeps this query dynamic for dashboard filters 
+// without needing us to manually calculate dates in Apex.
+
+SELECT Subject, Description,
+    TYPEOF Who
+        WHEN Contact THEN Name, Title, Department
+        WHEN Lead THEN Name, Company, Status
+    END
+FROM Task
+WHERE CreatedDate = THIS_WEEK
