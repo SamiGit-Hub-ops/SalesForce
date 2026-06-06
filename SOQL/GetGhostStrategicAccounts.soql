@@ -1,0 +1,15 @@
+// FILE: GetGhostStrategicAccounts.soql
+//
+// PROBLEM STATEMENT & BUSINESS VALUE:
+// Sales Operations needs to identify and purge/reassign stalled "Strategic"
+// Accounts ($5M+ Revenue) that have zero active contacts and zero open pipeline.
+//
+// Using native Anti-Joins (NOT IN) ensures maximum performance by pushing
+// the filtering workload entirely to the Salesforce database engine,
+// avoiding heavy Apex processing and heap limit risks.
+
+SELECT Id, Name, OwnerId, AnnualRevenue
+FROM Account
+WHERE AnnualRevenue > 5000000
+  AND Id NOT IN (SELECT AccountId FROM Contact)
+  AND Id NOT IN (SELECT AccountId FROM Opportunity WHERE IsClosed = false)
