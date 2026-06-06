@@ -1,0 +1,13 @@
+// FILE: GetNeglectedHotAccounts.soql
+//
+// This query helps the Customer Success team find high-priority ("Hot") accounts 
+// that have completely stalled out with zero logged tasks or communications. 
+// 
+// By using an anti-join on the Task.WhatId field, we let the database handle the 
+// filtering natively, letting us build a clean dashboard component that won't 
+// impact org performance.
+
+SELECT Id, Name, Rating
+FROM Account
+WHERE Rating = 'Hot' 
+  AND Id NOT IN (SELECT WhatId FROM Task)
