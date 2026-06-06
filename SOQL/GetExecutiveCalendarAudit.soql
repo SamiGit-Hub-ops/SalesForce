@@ -1,0 +1,17 @@
+// FILE: GetExecutiveCalendarAudit.soql
+//
+// We are pulling the CEO's upcoming calendar events to give the executive assistant 
+// a single, clear timeline view. The tricky part here is that an event can be related 
+// to different types of records through the polymorphic 'What' field.
+//
+// Instead of querying accounts and campaigns separately in Apex (which slows things down),
+// we use the TYPEOF operator. This dynamically inspects the relation at the database level:
+// if it's an Account, we grab the region; if it's a Campaign, we grab the deployment status.
+
+SELECT Subject, StartDateTime,
+    TYPEOF What
+        WHEN Account THEN Name, BillingState
+        WHEN Campaign THEN Name, Status
+    END
+FROM Event
+WHERE StartDateTime >= TODAY
