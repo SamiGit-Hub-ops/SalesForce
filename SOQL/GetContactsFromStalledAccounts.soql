@@ -1,0 +1,24 @@
+// FILE: GetContactsFromStalledAccounts.soql
+//
+// This query isolates contacts belonging to "stalled" accounts to target them 
+// for a re-engagement marketing campaign. A stalled account is defined as one 
+// with zero Closed-Won opportunities during the current calendar year.
+//
+// CORE CONCEPT & ARCHITECTURAL VALUE:
+// This query showcases how to avoid deep query nesting or expensive Apex map-matching. 
+// Because both Contact and Opportunity share a common foreign key (AccountId), we can 
+// pass a subquery of Opportunity AccountIds directly into the Contact wrapper. 
+//
+// EXTRA DETAIL ON PERFORMANCE:
+// By using 'NOT IN' against this shared ID tier, the Salesforce database optimizer 
+// index-scans the Opportunity table first, builds a temporary ID set, and filters 
+// the Contact records instantly. This keeps memory usage at zero in the Apex transaction layer.
+
+SELECT FirstName, LastName, Email, Account.Name
+FROM Contact
+WHERE AccountId NOT IN (
+    SELECT AccountId 
+    FROM Opportunity 
+    WHERE StageName = 'Closed-Won' 
+      AND CloseDate = THIS_YEAR
+)
